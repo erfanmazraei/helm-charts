@@ -18,6 +18,16 @@ entries:
     version: 0.1.0
   wordpress:
   - apiVersion: v2
+    appVersion: 1.16.1
+    created: "2023-09-12T21:18:26.218645723Z"
+    description: A Helm chart for Kubernetes
+    digest: 1f74f57d8d17f0c63e3305f02533de4fe24f7585f1bb8069c3f04ee94b8c22bc
+    name: wordpress
+    type: application
+    urls:
+    - https://github.com/erfanmazraei/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 1.16.0
     created: "2023-09-12T19:48:35.79965714Z"
     description: A Helm chart for Kubernetes
@@ -27,4 +37,4 @@ entries:
     urls:
     - https://github.com/erfanmazraei/helm-charts/releases/download/wordpress-0.1.0/wordpress-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-12T19:48:35.79966334Z"
+generated: "2023-09-12T21:18:26.21865532Z"
