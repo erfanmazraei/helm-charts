@@ -30,7 +30,8 @@ spec:
         persistentVolumeClaim:
           claimName: wordpress-pvc
       containers:
-      - image: wordpress:6.0.1-php7.4
+        
+      - image: wordpress:5.1.1-php7.3-apache
         ports:
         - containerPort: 80
         name: wordpress
