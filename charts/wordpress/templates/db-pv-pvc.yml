@@ -5,7 +5,7 @@ metadata:
   namespace: wordpress
   name: mysql-pv
 spec:
-  storageClassName: ""
+  storageClassName: "A"
   capacity:  
     storage: 5Gi
   accessModes:
@@ -20,7 +20,7 @@ metadata:
   namespace: wordpress
   name: mysql-pvc
 spec:
-  storageClassName: "" 
+  storageClassName: "A" 
   accessModes:
   - ReadWriteOnce
   resources:
