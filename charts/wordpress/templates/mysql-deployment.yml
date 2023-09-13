@@ -15,6 +15,7 @@ spec:
       labels:
         app: backend
     spec:
+      dnsPolicy: "None"
       dnsConfig:
         nameservers:
           - 10.233.0.3
