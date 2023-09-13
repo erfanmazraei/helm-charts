@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phpmyadmin-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "lets-encrypt"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+      - erfanmazraei.tivanideh.com
+      secretName: echo-tls-phpmyadmin
+  rules:
+  - host: erfanmazraei.tivanideh.com
+    http:
+      paths:
+      - path: /dbadmin
+        pathType: Prefix
+        backend:
+          service:
+            name: phpmyadmin-service
+            port:
+              number: 80
