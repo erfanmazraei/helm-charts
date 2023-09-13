@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - erfanmazraei.tivanideh.com
+      - erfanmazraei.3ttest.ir
       secretName: echo-tls-wordpress
   rules:
-  - host: erfanmazraei.tivanideh.com
+  - host: erfanmazraei.3ttest.ir
     http:
       paths:
       - path: /wordpress(/|$)(.*)
