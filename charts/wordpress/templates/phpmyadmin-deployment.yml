@@ -17,14 +17,14 @@ spec:
     spec:
       dnsPolicy: "None"
       dnsConfig:
-        nameservers:
-          - 10.233.0.3
+        nameservers: ["10.233.0.3"]
         searches:
-          - wordpress.svc.cluster.local
-          - svc.cluster.local
-          - cluster.local
+        - wordpress.svc.cluster.local
+        - svc.cluster.local
+        - cluster.local
         options:
-          - ndots:5
+        - name: ndots
+          value: "5"
       containers:
         - name: phpmyadmin
           image: phpmyadmin/phpmyadmin
