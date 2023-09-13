@@ -5,7 +5,7 @@ metadata:
   namespace: wordpress
   name: wordpress-pv
 spec:
-  storageClassName: "B"
+  storageClassName: "wpdata"
   capacity:
     storage: 3Gi
   accessModes:
@@ -20,7 +20,7 @@ metadata:
   namespace: wordpress
   name: wordpress-pvc
 spec:
-  storageClassName: "B"
+  storageClassName: "wpdata"
   accessModes:
   - ReadWriteOnce
   resources:
