@@ -20,8 +20,22 @@ spec:
         persistentVolumeClaim:
           claimName: wordpress-pvc
       containers:
-      - image: wordpress:5.1.1-php7.3-apache
+      - image: wordpress:6.2.1-apache
         name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-service
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secret
+              key: mrp
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secret
+              key: mu
+
         volumeMounts:
         - mountPath: /var/www/html
           name: wppod-pvc
