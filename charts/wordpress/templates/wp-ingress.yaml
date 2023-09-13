@@ -11,12 +11,12 @@ spec:
   tls:
     - hosts:
       - erfanmazraei.tivanideh.com
-      secretName: echo-tls-phpmyadmin
+      secretName: echo-tls-wordpress
   rules:
   - host: erfanmazraei.tivanideh.com
     http:
       paths:
-      - path: /dbadmin(/|$)(.*)
+      - path: /wordpress(/|$)(.*)
         pathType: Prefix
         backend:
           service:
