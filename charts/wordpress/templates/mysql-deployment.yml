@@ -29,20 +29,20 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysecret
+              name: wordpress-secret
               key: mrp
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: mysecret
+              name: wordpress-secret
               key: mdb
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: mysecret
+              name: wordpress-secret
               key: mu
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysecret
+              name: wordpress-secret
               key: mp
