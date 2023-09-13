@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
       - erfanmazraei.3ttest.ir
-      secretName: echo-tls-phpmyadmin
+      secretName: echo-tls-phpmyadmin1
   rules:
   - host: erfanmazraei.3ttest.ir
     http:
