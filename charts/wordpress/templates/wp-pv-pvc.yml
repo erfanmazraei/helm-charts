@@ -3,26 +3,27 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   namespace: wordpress
-  name: mysql-pv
+  name: wordpress-pv
 spec:
   storageClassName: ""
-  capacity:  
-    storage: 5Gi
+  capacity:
+    storage: 3Gi
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: "/mysqldata"
+    path: "/wpdata"
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: wordpress
-  name: mysql-pvc
+  name: wordpress-pvc
 spec:
-  storageClassName: "" 
+  storageClassName: ""
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 3Gi
+      
