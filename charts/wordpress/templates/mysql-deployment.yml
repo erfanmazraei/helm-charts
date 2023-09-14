@@ -29,6 +29,10 @@ spec:
       - name: mysqlpod-pvc
         persistentVolumeClaim:
           claimName: mysql-pvc
+      - name: mysql-initdb
+        configMap:
+          name: mysql-initdb-config
+
       containers:
       - name: mysql
         image: mysql:5.6
@@ -37,6 +41,8 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: mysqlpod-pvc
+        - mountPath: /docker-entrypoint-initdb.d
+          name: mysql-initdb
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -58,3 +64,13 @@ spec:
             secretKeyRef:
               name: wordpress-secret
               key: mp
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  initdb.sql: |
+    GRANT ALL PRIVILEGES ON wpdb.* TO 'sonu'@'%' IDENTIFIED BY 'redhat';
+    GRANT ALL PRIVILEGES ON wpdb.* TO '0'@'%' IDENTIFIED BY 'redhat';
