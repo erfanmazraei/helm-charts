@@ -53,6 +53,11 @@ spec:
             secretKeyRef:
               name: wordpress-secret
               key: mdb
+        - name: WORDPRESS_CONFIG_EXTRA
+          valueFrom:
+            configMapKeyRef:
+              name: wp-extra-config
+              key: WORDPRESS_CONFIG_EXTRA
 
         volumeMounts:
         - mountPath: /var/www/html

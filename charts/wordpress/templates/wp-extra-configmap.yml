@@ -1,0 +1,8 @@
+kind: ConfigMap
+metadata:
+  namespace: wordpress
+  name: wp-extra-config
+data:
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_SITEURL', 'https://erfanmazraei.3tex.ir/wordpress');
+    define('WP_HOME', 'https://erfanmazraei.3tex.ir/wordpress');
