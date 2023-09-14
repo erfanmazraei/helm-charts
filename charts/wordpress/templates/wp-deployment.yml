@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: wordpress
+  name: wp-extra-config
+data:
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_SITEURL', 'https://erfanmazraei.3tex.ir/wordpress');
+    define('WP_HOME', 'https://erfanmazraei.3tex.ir/wordpress');
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -53,6 +64,12 @@ spec:
             secretKeyRef:
               name: wordpress-secret
               key: mdb
+
+        - name: WORDPRESS_CONFIG_EXTRA
+          valueFrom:
+            configMapKeyRef:
+              name: wp-extra-config
+              key: WORDPRESS_CONFIG_EXTRA
 
         volumeMounts:
         - mountPath: /var/www/html
