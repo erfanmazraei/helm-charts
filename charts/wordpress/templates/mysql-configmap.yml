@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: wordpress
+  name: mysql-initdb-config
+data:
+  init.sql: |
+    GRANT ALL PRIVILEGES ON wpdb.* TO 'sonu'@'%' IDENTIFIED BY 'redhat';
+    GRANT ALL PRIVILEGES ON wpdb.* TO '0'@'%' IDENTIFIED BY 'redhat';
