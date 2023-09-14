@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - erfanmazraei.3ttest.ir
+      - erfanmazraei.3tex.ir
       secretName: echo-tls-phpmyadmin1
   rules:
-  - host: erfanmazraei.3ttest.ir
+  - host: erfanmazraei.3tex.ir
     http:
       paths:
       - path: /dbadmin(/|$)(.*)
