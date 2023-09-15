@@ -7,7 +7,7 @@ metadata:
     app: phpmyadmin
 spec:
   replicas: 1
-  revisionHistoryLimit: 15
+  revisionHistoryLimit: {{ .Values.phpmyadmin.deployment.spec.revisionHistoryLimit }}
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -32,7 +32,7 @@ spec:
           value: "5"
       containers:
       - name: phpmyadmin
-        image: {{ .Values.phpmyadmin.deployment.image }}
+        image: {{ .Values.phpmyadmin.deployment.spec.containers.image }}
         imagePullPolicy: "IfNotPresent"
         resources:
           limits:
@@ -78,7 +78,7 @@ spec:
           - name: PMA_PORT
             value: "3306"
           - name: PMA_ABSOLUTE_URI
-            value: {{ .Values.phpmyadmin.deployment.env.PMA_ABSOLUTE_URI.value }}
+            value: {{ .Values.phpmyadmin.deployment.spec.containers.env.PMA_ABSOLUTE_URI.value }}
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
