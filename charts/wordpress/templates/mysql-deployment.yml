@@ -7,6 +7,11 @@ metadata:
   name: mysql
 spec:
   replicas: 1
+  revisionHistoryLimit: 15
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 2
   selector:
     matchLabels:
       app: backend
@@ -36,8 +41,38 @@ spec:
       containers:
       - name: mysql
         image: mysql:5.6
+        resources:
+          limits:
+            memory: 700Mi
+            cpu: 500m
+          requests:
+            memory: 10Mi
+            cpu: 10m
         ports:
         - containerPort: 3306
+        startupProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 180
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          failureThreshold: 4
+          successThreshold: 3
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: mysqlpod-pvc

@@ -7,6 +7,11 @@ metadata:
   name: wordpress
 spec:
   replicas: 1
+  revisionHistoryLimit: 15
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 2
   selector:
     matchLabels:
       app: frontend
@@ -30,11 +35,47 @@ spec:
         persistentVolumeClaim:
           claimName: wordpress-pvc
       containers:
-        
       - image: wordpress:5.1.1-php7.3-apache
+        imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 80
         name: wordpress
+        resources:
+          limits:
+            memory: 700Mi
+            cpu: 500m
+          requests:
+            memory: 10Mi
+            cpu: 10m
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 180
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 4
+          successThreshold: 3        
         env:
         - name: WORDPRESS_DB_HOST
           value: mysql-service

@@ -7,6 +7,11 @@ metadata:
     app: phpmyadmin
 spec:
   replicas: 1
+  revisionHistoryLimit: 15
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 2
   selector:
     matchLabels:
       app: phpmyadmin
@@ -26,20 +31,56 @@ spec:
         - name: ndots
           value: "5"
       containers:
-        - name: phpmyadmin
-          image: phpmyadmin/phpmyadmin
-          ports:
-            - containerPort: 80
-          env:
-            - name: PMA_HOST
-              value: mysql-service
-            - name: PMA_PORT
-              value: "3306"
-            - name: PMA_ABSOLUTE_URI
-              value: https://erfan-mazraei-nl-rg3.maxtld.dev/dbadmin
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: wordpress-secret
-                  key: mrp
-
+      - name: phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        imagePullPolicy: "IfNotPresent"
+        resources:
+          limits:
+            memory: 700Mi
+            cpu: 500m
+          requests:
+            memory: 10Mi
+            cpu: 10m
+        ports:
+          - containerPort: 80
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 180
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 4
+          successThreshold: 3        
+        env:
+          - name: PMA_HOST
+            value: mysql-service
+          - name: PMA_PORT
+            value: "3306"
+          - name: PMA_ABSOLUTE_URI
+            value: https://erfan-mazraei-nl-rg3.maxtld.dev/dbadmin
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wordpress-secret
+                key: mrp
