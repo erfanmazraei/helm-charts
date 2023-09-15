@@ -17,8 +17,7 @@ phpmyadmin:
   ingress:
     spec:
       tls:
-        hosts: 
-          - erfan-mazraei-nl-rg3.maxtld.dev
+        hosts: erfan-mazraei-nl-rg3.maxtld.dev
       rules:
         host: erfan-mazraei-nl-rg3.maxtld.dev
 
@@ -31,8 +30,7 @@ wordpress:
   ingress:
     spec:
       tls:
-        hosts: 
-          - erfan-mazraei-nl-rg3.maxtld.dev
+        hosts: erfan-mazraei-nl-rg3.maxtld.dev
       rules:
         host: erfan-mazraei-nl-rg3.maxtld.dev
 

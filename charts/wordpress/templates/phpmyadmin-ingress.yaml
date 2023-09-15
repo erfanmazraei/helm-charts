@@ -12,11 +12,8 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   tls:
-    {{- range .Values.phpmyadmin.ingress.spec.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
+        - {{ .Values.phpmyadmin.ingress.spec.tls.hosts }}
       secretName: echo-tls-phpmyadmin1
   rules:
   - host: {{ .Values.phpmyadmin.ingress.spec.rules.host }}
