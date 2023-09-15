@@ -32,7 +32,7 @@ spec:
           value: "5"
       containers:
       - name: phpmyadmin
-        image: phpmyadmin/phpmyadmin
+        image: {{ .Values.phpmyadmin.deployment.image }}
         imagePullPolicy: "IfNotPresent"
         resources:
           limits:
@@ -78,7 +78,7 @@ spec:
           - name: PMA_PORT
             value: "3306"
           - name: PMA_ABSOLUTE_URI
-            value: https://erfan-mazraei-nl-rg3.maxtld.dev/dbadmin
+            value: {{ .Values.phpmyadmin.deployment.env.PMA_ABSOLUTE_URI.value }}
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
