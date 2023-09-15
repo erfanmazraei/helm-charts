@@ -12,8 +12,11 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   tls:
+    {{- range .Values.wordpress.ingress.spec.tls }}
     - hosts:
-      - {{ .Values.wordpress.ingress.spec.tls.hosts }}
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
       secretName: echo-tls-wordpress1
   rules:
   - host: {{ .Values.wordpress.ingress.spec.rules.host }}
