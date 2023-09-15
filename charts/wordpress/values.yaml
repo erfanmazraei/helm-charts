@@ -26,8 +26,8 @@ wordpress:
   deployment:
     spec:
       revisionHistoryLimit: 15
-        containers:
-          image: wordpress:5.1.1-php7.3-apache
+      containers:
+        image: wordpress:5.1.1-php7.3-apache
   ingress:
     spec:
       tls:
