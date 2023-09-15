@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - erfanmazraei.3tex.ir
+      - erfan-mazraei-nl-rg3.maxtld.dev
       secretName: echo-tls-phpmyadmin1
   rules:
-  - host: erfanmazraei.3tex.ir
+  - host: erfan-mazraei-nl-rg3.maxtld.dev
     http:
       paths:
       - path: /dbadmin(/|$)(.*)

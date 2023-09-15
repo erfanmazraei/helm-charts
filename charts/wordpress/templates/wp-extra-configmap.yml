@@ -5,5 +5,5 @@ metadata:
   name: wp-extra-config
 data:
   WORDPRESS_CONFIG_EXTRA: |
-    define('WP_SITEURL', 'https://erfanmazraei.3tex.ir/wordpress');
-    define('WP_HOME', 'https://erfanmazraei.3tex.ir/wordpress');
+    define('WP_SITEURL', 'https://erfan-mazraei-nl-rg3.maxtld.dev/wordpress');
+    define('WP_HOME', 'https://erfan-mazraei-nl-rg3.maxtld.dev/wordpress');
