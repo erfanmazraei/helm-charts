@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - erfan-mazraei-nl-rg3.maxtld.dev
+      - {{ .Values.wordpress.ingress.spec.tls.hosts }}
       secretName: echo-tls-wordpress1
   rules:
-  - host: erfan-mazraei-nl-rg3.maxtld.dev
+  - host: {{ .Values.wordpress.ingress.spec.rules.host }}
     http:
       paths:
       - path: /wordpress(/|$)(.*)

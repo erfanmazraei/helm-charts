@@ -7,7 +7,7 @@ metadata:
   name: wordpress
 spec:
   replicas: 1
-  revisionHistoryLimit: 15
+  revisionHistoryLimit: {{ .Values.wordpress.deployment.spec.revisionHistoryLimit }}
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -35,7 +35,7 @@ spec:
         persistentVolumeClaim:
           claimName: wordpress-pvc
       containers:
-      - image: wordpress:5.1.1-php7.3-apache
+      - image: {{ .Values.wordpress.deployment.spec.containers.image }}
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 80

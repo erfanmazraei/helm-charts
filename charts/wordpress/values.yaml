@@ -15,5 +15,22 @@ phpmyadmin:
           PMA_ABSOLUTE_URI:
             value: https://erfan-mazraei-nl-rg3.maxtld.dev/dbadmin
   ingress:
-    rules:
-      host: erfan-mazraei-nl-rg3.maxtld.dev
+    spec:
+      tls:
+        hosts: erfan-mazraei-nl-rg3.maxtld.dev
+      rules:
+        host: erfan-mazraei-nl-rg3.maxtld.dev
+
+wordpress:
+  deployment:
+    spec:
+      revisionHistoryLimit: 15
+        containers:
+          image: wordpress:5.1.1-php7.3-apache
+  ingress:
+    spec:
+      tls:
+        hosts: erfan-mazraei-nl-rg3.maxtld.dev
+      rules:
+        host: erfan-mazraei-nl-rg3.maxtld.dev
+
