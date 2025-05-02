@@ -16,14 +16,6 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap-jira.yaml") . | sha256sum }}
     spec:
-      securityContext:
-        {{- toYaml .Values.jira.securityContext | nindent 8 }}
-      initContainers:
-      - name: wait-for-mysql
-        image: "{{ .Values.initContainer.image }}:{{ .Values.initContainer.tag }}"
-        command: ['sh', '-c', 'until nc -z {{ include "jira-helm.fullname" . }}-mysql {{ .Values.mysql.service.port }}; do echo "Waiting for MySQL..."; sleep 2; done']
-        resources:
-          {{- toYaml .Values.initContainer.resources | nindent 12 }}
       containers:
       - name: jira
         image: {{ .Values.jira.image.repository }}:{{ .Values.jira.image.tag }}
