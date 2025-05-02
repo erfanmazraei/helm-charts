@@ -16,8 +16,6 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap-jira.yaml") . | sha256sum }}
     spec:
-#      securityContext:
-#        {{- toYaml .Values.jira.securityContext | nindent 8 }}
       containers:
       - name: jira
         image: {{ .Values.jira.image.repository }}:{{ .Values.jira.image.tag }}
@@ -32,7 +30,7 @@ spec:
         - name: data
           mountPath: /var/jira
         resources:
-          {{- toYaml .Values.jira.resources | nindent 12 }}
+          {{- toYaml .Values.jira.resources | nindent 10 }}  # Fixed indentation
         livenessProbe:
           httpGet:
             path: {{ .Values.jira.probe.liveness.path }}
@@ -53,16 +51,4 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: {{ include "jira-helm.fullname" . }}-jira-pvc
-      {{- with .Values.jira.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.jira.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.jira.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
 {{- end }}
