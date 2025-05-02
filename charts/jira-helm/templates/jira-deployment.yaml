@@ -16,10 +16,24 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap-jira.yaml") . | sha256sum }}
     spec:
+      securityContext:
+        fsGroup: {{ .Values.jira.securityContext.fsGroup }}
+      initContainers:
+      - name: init-permissions
+        image: "{{ .Values.initContainer.image }}:{{ .Values.initContainer.tag }}"
+        command: ['sh', '-c', 'mkdir -p /var/jira && chown -R 1001:1001 /var/jira']
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - name: jira-data
+            mountPath: /var/jira
+
       containers:
       - name: jira
         image: {{ .Values.jira.image.repository }}:{{ .Values.jira.image.tag }}
         imagePullPolicy: {{ .Values.jira.image.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.jira.securityContext | nindent 12 }}
         envFrom:
         - configMapRef:
             name: {{ include "jira-helm.fullname" . }}-jira-config
