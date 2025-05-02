@@ -1,0 +1,37 @@
+{{- if and .Values.jira.enabled .Values.jira.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "jira-helm.fullname" . }}-ingress
+  labels:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.jira.ingress.annotations }}
+    {{- toYaml .Values.jira.ingress.annotations | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.jira.ingress.className | quote }}
+  tls:
+    {{- range .Values.jira.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName | quote }}
+    {{- end }}
+  rules:
+    {{- range .Values.jira.ingress.tls }}
+    {{- range .hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: {{ $.Values.jira.ingress.path }}
+            pathType: {{ $.Values.jira.ingress.pathType }}
+            backend:
+              service:
+                name: {{ include "jira-helm.fullname" $ }}-jira
+                port:
+                  number: {{ $.Values.jira.service.port }}
+    {{- end }}
+    {{- end }}
+{{- end }}

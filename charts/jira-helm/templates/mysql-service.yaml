@@ -1,0 +1,15 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jira-helm.fullname" . }}-mysql
+  labels:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.mysql.service.type }}
+  ports:
+    - port: {{ .Values.mysql.service.port }}
+      targetPort: mysql
+  selector:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+{{- end }}

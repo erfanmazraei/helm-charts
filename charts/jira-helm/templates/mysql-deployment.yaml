@@ -1,0 +1,93 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jira-helm.fullname" . }}-mysql
+  labels:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "jira-helm.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "jira-helm.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-mysql.yaml") . | sha256sum }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.mysql.securityContext | nindent 8 }}
+      containers:
+      - name: mysql
+        image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
+        imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mysql.secretName" . }}
+              key: root-password
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mysql.secretName" . }}
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mysql.secretName" . }}
+              key: password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mysql.secretName" . }}
+              key: database
+        ports:
+        - containerPort: {{ .Values.mysql.service.port }}
+          name: mysql
+        volumeMounts:
+        - name: config
+          mountPath: /etc/mysql/conf.d/
+        - name: data
+          mountPath: /var/lib/mysql
+        resources:
+          {{- toYaml .Values.mysql.resources | nindent 12 }}
+        livenessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+          initialDelaySeconds: {{ .Values.mysql.probe.liveness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.mysql.probe.liveness.periodSeconds }}
+          timeoutSeconds: {{ .Values.mysql.probe.liveness.timeoutSeconds }}
+          failureThreshold: {{ .Values.mysql.probe.liveness.failureThreshold }}
+        readinessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+          initialDelaySeconds: {{ .Values.mysql.probe.readiness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.mysql.probe.readiness.periodSeconds }}
+          timeoutSeconds: {{ .Values.mysql.probe.readiness.timeoutSeconds }}
+          failureThreshold: {{ .Values.mysql.probe.readiness.failureThreshold }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "jira-helm.fullname" . }}-mysql-config
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ include "jira-helm.fullname" . }}-mysql-pvc
+      {{- with .Values.mysql.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mysql.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mysql.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

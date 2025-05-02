@@ -1,0 +1,18 @@
+{{- if .Values.jira.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jira-helm.fullname" . }}-jira
+  labels:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.jira.service.annotations | nindent 4 }}
+spec:
+  type: {{ .Values.jira.service.type }}
+  ports:
+    - port: {{ .Values.jira.service.port }}
+      targetPort: http
+      name: http
+  selector:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+{{- end }}

@@ -1,0 +1,13 @@
+{{- if .Values.jira.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "jira-helm.fullname" . }}-jira-config
+  labels:
+    {{- include "jira-helm.labels" . | nindent 4 }}
+data:
+  timezone: {{ .Values.jira.timeZone | quote }}
+  jvm_min_memory: {{ .Values.jira.jvm.minimumMemory | quote }}
+  jvm_max_memory: {{ .Values.jira.jvm.maximumMemory | quote }}
+  jvm_code_cache_args: {{ .Values.jira.jvm.codeCacheArgs | quote }}
+{{- end }}

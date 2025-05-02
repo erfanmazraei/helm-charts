@@ -1,0 +1,145 @@
+# Global configuration
+global:
+  labels: {}
+  annotations: {}
+  imagePullSecrets: []
+
+# Jira Configuration
+jira:
+  enabled: true
+  image:
+    repository: haxqer/jira
+    tag: 9.17.5
+    pullPolicy: IfNotPresent
+  timeZone: Asia/Shanghai
+  jvm:
+    minimumMemory: "1g"
+    maximumMemory: "12g"
+    codeCacheArgs: "-XX:InitialCodeCacheSize=1g -XX:ReservedCodeCacheSize=8g"
+  
+  service:
+    type: ClusterIP
+    port: 8080
+    annotations: {}
+  
+  ingress:
+    enabled: false
+    className: ""
+    host: jira.example.com
+    path: /
+    pathType: Prefix
+    annotations:
+      cert-manager.io/cluster-issuer: ""  # Set to your cluster issuer name
+      # cert-manager.io/acme-challenge-type: http01  # Uncomment if needed
+    tls:
+      - hosts:
+          - jira.example.com
+        secretName: jira-tls
+  
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "2Gi"
+    limits:
+      cpu: "4000m"
+      memory: "12Gi"
+  
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 10Gi
+  
+  probe:
+    liveness:
+      path: /status
+      initialDelaySeconds: 300
+      timeoutSeconds: 10
+      periodSeconds: 10
+      failureThreshold: 3
+    readiness:
+      path: /status
+      initialDelaySeconds: 60
+      timeoutSeconds: 10
+      periodSeconds: 10
+      failureThreshold: 3
+  
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  securityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+    readOnlyRootFilesystem: true
+
+# MySQL Configuration
+mysql:
+  enabled: true
+  image:
+    repository: mysql
+    tag: 8.0
+    pullPolicy: IfNotPresent
+  
+  auth:
+    rootPassword: "123456"
+    database: "jira"
+    username: "jira"
+    password: "123123"
+    existingSecret: ""
+  
+  configuration: |
+    [mysqld]
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_bin
+    [client]
+    default-character-set=utf8mb4
+  
+  service:
+    type: ClusterIP
+    port: 3306
+  
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "2000m"
+      memory: "2Gi"
+  
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 20Gi
+  
+  probe:
+    liveness:
+      initialDelaySeconds: 60
+      timeoutSeconds: 10
+      periodSeconds: 10
+      failureThreshold: 3
+    readiness:
+      initialDelaySeconds: 30
+      timeoutSeconds: 10
+      periodSeconds: 10
+      failureThreshold: 3
+  
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+
+initContainer:
+  image: busybox
+  tag: 1.28
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "32Mi"
+    limits:
+      cpu: "200m"
+      memory: "64Mi"
