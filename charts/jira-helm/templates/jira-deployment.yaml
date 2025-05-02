@@ -31,22 +31,22 @@ spec:
           mountPath: /var/jira
         resources:
           {{- toYaml .Values.jira.resources | nindent 10 }}  # Fixed indentation
-        livenessProbe:
-          httpGet:
-            path: {{ .Values.jira.probe.liveness.path }}
-            port: http
-          initialDelaySeconds: {{ .Values.jira.probe.liveness.initialDelaySeconds }}
-          periodSeconds: {{ .Values.jira.probe.liveness.periodSeconds }}
-          timeoutSeconds: {{ .Values.jira.probe.liveness.timeoutSeconds }}
-          failureThreshold: {{ .Values.jira.probe.liveness.failureThreshold }}
-        readinessProbe:
-          httpGet:
-            path: {{ .Values.jira.probe.readiness.path }}
-            port: http
-          initialDelaySeconds: {{ .Values.jira.probe.readiness.initialDelaySeconds }}
-          periodSeconds: {{ .Values.jira.probe.readiness.periodSeconds }}
-          timeoutSeconds: {{ .Values.jira.probe.readiness.timeoutSeconds }}
-          failureThreshold: {{ .Values.jira.probe.readiness.failureThreshold }}
+#        livenessProbe:
+#          httpGet:
+#            path: {{ .Values.jira.probe.liveness.path }}
+#            port: http
+#          initialDelaySeconds: {{ .Values.jira.probe.liveness.initialDelaySeconds }}
+#          periodSeconds: {{ .Values.jira.probe.liveness.periodSeconds }}
+#          timeoutSeconds: {{ .Values.jira.probe.liveness.timeoutSeconds }}
+#          failureThreshold: {{ .Values.jira.probe.liveness.failureThreshold }}
+#        readinessProbe:
+#          httpGet:
+#            path: {{ .Values.jira.probe.readiness.path }}
+#            port: http
+#          initialDelaySeconds: {{ .Values.jira.probe.readiness.initialDelaySeconds }}
+#          periodSeconds: {{ .Values.jira.probe.readiness.periodSeconds }}
+#          timeoutSeconds: {{ .Values.jira.probe.readiness.timeoutSeconds }}
+#          failureThreshold: {{ .Values.jira.probe.readiness.failureThreshold }}
       volumes:
       - name: data
         persistentVolumeClaim:
