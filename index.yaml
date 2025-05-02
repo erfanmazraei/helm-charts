@@ -16,6 +16,16 @@ entries:
     urls:
     - https://github.com/erfanmazraei/helm-charts/releases/download/helm-example-0.1.0/helm-example-0.1.0.tgz
     version: 0.1.0
+  jira-helm:
+  - apiVersion: v2
+    appVersion: 9.17.5
+    created: "2025-05-02T16:05:17.704022877Z"
+    description: Production-grade Jira with MySQL Helm Chart
+    digest: ce06093c05158047c323cd1dc7f492726b357ae63621078b24102419de38a4e8
+    name: jira-helm
+    urls:
+    - https://github.com/erfanmazraei/helm-charts/releases/download/jira-helm-1.0.0/jira-helm-1.0.0.tgz
+    version: 1.0.0
   wordpress:
   - apiVersion: v2
     appVersion: 1.16.44
@@ -407,4 +417,4 @@ entries:
     urls:
     - https://github.com/erfanmazraei/helm-charts/releases/download/wordpress-0.1.0/wordpress-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-15T22:36:19.561608336Z"
+generated: "2025-05-02T16:05:17.704122434Z"
