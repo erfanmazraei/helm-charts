@@ -3,8 +3,8 @@ name: jira-helm
 description: Production-grade Jira with MySQL Helm Chart
 version: 1.0.0
 appVersion: "9.17.5"
-dependencies:
-  - name: mysql
-    version: 9.0.0
-    repository: https://charts.bitnami.com/bitnami
-    condition: mysql.enabled
+#dependencies:
+#  - name: mysql
+#    version: 9.0.0
+#    repository: https://charts.bitnami.com/bitnami
+#    condition: mysql.enabled
